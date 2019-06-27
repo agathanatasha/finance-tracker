@@ -11,7 +11,7 @@ class User < ApplicationRecord
     if first_name || last_name
       return "#{first_name} #{last_name}".strip
     else
-      return nil
+      return "Anonymous"
     end
   end
 
