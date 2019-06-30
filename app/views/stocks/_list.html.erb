@@ -1,27 +1,35 @@
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Symbol</th>
-            <th>Current Price</th>
-            <% if @user.id == current_user.id %>
-                <th>Actions</th>
-            <% end %>
-        </tr>
-    </thead>
-    <tbody>
-        <% @stocks.each do |stock| %>
+<% unless @stocks.blank? %>
+    <table class="table table-striped">
+        <thead>
             <tr>
-                <th><%= stock.name %></th>
-                <th><%= stock.ticker %></th>
-                <th><%= stock.last_price %></th>
+                <th>Name</th>
+                <th>Symbol</th>
+                <th>Current Price</th>
                 <% if @user.id == current_user.id %>
-                    <th><%= link_to "Remove stock", user_stock_path(stock), 
-                                    class: "btn btn-xs btn-danger", 
-                                    method: :delete, 
-                                    data: { confirm: "Are you sure?" } %></th>
+                    <th>Actions</th>
                 <% end %>
             </tr>
-        <% end %>
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            <% @stocks.each do |stock| %>
+                <tr>
+                    <th><%= stock.name %></th>
+                    <th><%= stock.ticker %></th>
+                    <th><%= stock.last_price %></th>
+                    <% if @user.id == current_user.id %>
+                        <th><%= link_to "Remove stock", user_stock_path(stock), 
+                                        class: "btn btn-xs btn-danger", 
+                                        method: :delete, 
+                                        data: { confirm: "Are you sure?" } %></th>
+                    <% end %>
+                </tr>
+            <% end %>
+        </tbody>
+    </table>
+<% else %>
+    <% if params[:action] == 'my_portfolio'%>
+        <p class="lead">You don't have any stocks yet! Add one now!</p>
+    <% else %>
+        <p class="lead"><%= @user.full_name %> doesn't have any stocks yet.</p>
+    <% end %>
+<% end %>
